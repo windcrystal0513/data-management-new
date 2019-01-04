@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" >
+  <title>New Yotta</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+  <!-- Ionicons -->
+  <link href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+<!-- <script type="text/javascript">ip = ffsfdsf；</script> -->
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="../home/index.html" class="logo">
+    <!-- <a href="../../index.html" class="logo"> -->
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini" style="font-size: 12px">数据管理</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg">数据管理</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 19px"></i><strong> New Yotta</strong></a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header">主要功能</li>
+        <li>
+          <a href="../home/index.html">
+            <i class="fa fa-houzz"></i> <span>HOME</span>  
+          </a>
+        </li>
+
+        <li>
+          <a href="../topic_relation/index.html">
+            <i class="fa fa-asterisk"></i> <span>主题&认知关系</span>
+          </a>
+        </li>
+        <li>
+          <a href="../facet_fragment/index.html">
+            <i class="fa  fa-download"></i> <span>分面&知识碎片</span>
+          </a>
+        </li>
+        
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper"  ng-app="myApp"  ng-controller="myCon">
+    <!-- Content Header (Page header) -->
+    
+    <section class="content-header">
+         <h1>
+        <small> &nbsp; &nbsp;
+            <span style="font-family: 微软黑体">切换构建学科和课程:</span>
+            <select class="btn btn-sm btn-primary" ng-model="subject" ng-options="subject.subjectName for subject in subjects" ng-change="subject_change()">
+              <option value="">-- 请选择学科 --</option> 
+            </select>
+            <select class="btn btn-sm btn-primary" ng-model="domain" ng-options="domain.domainName for domain in subject.domains"  ng-change="domain_change()">
+              <option value="">-- 请选择课程 --</option> 
+            </select>
+        </small>
+      </h1> 
+    </section>
+    <section class="content">
+      <div class="row">
+        <div div class="col-sm-4">
+          <div class="box box-primary box-solid" id="allTopic" style="margin-left:15px;width:96%">
+            <div class="box-header with-border">
+              <h3 class="box-title" id="nowClass">某课程所有主题</h3>
+              <button class="btn btn-default" style="float: right"  data-toggle="modal" data-target="#addTopicModal">添加主题</button>
+            </div>
+            <div id="topicAllDiv" class="box-body" style="height:680px;display: block;overflow-y: auto;overflow-x: hidden">
+              <div class="top btn btn-primary" id={{topic.topicId}} style="width:30%;margin:1%;" ng-repeat="topic in topics" ng-click="nowTopic(topic.topicName);showFacetTreeWithoutLeaves(topic.topicName);" ng-mouseover="getTopicInfo(topic.topicName)"  data-toggle="context" data-target="#menu"  ng-right-click="rightTopic(topic.topicName)" >
+                {{topic.topicName}}
+              </div>
+            </div>
+
+            <div id="menu">
+             <ul class="dropdown-menu" role="menu">
+               <li>
+                 <a style="cursor:pointer" ng-click="deleteTopic()">
+                   Delete
+                 </a>
+               </li>
+               <li>
+               <a style="cursor:pointer"  data-toggle="modal" ng-click="showModifyModal()">
+                   Modify
+                 </a>
+               </li>
+             </ul>
+           </div>
+
+
+            <div class="modal fade" id="addTopicModal" tabindex="-1" role="dialog" aria-labelledby="addTopicModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                      &times;
+                    </button>
+                    <h4 class="modal-title" id="addTopicModalLabel">
+                      添加主题
+                    </h4>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" style="width:100%" >
+                    主题名：<input type="text" name="addTopicName">
+                    </form>
+                 </div>
+                 <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-default" ng-click="addTopic()" data-dismiss="modal">确定</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modifyTopicModal" tabindex="-1" role="dialog" aria-labelledby="modifyTopicModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title" id="modifyTopicModalLabel">
+                    修改
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="" style="margin-left:0px" >
+                    主题名：<input type="text" name="NewTopicName">
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-default" ng-click="modifyTopic()" data-dismiss="modal">确认修改</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          </div>
+        </div>
+
+
+
+        <div div class="col-sm-4">
+          <div class="row">
+            <div class="box box-primary box-solid">
+              <div class="box-header with-border">
+                <h3 class="box-title" id="nowAddTopicClass">添加认知关系</h3>
+              </div>
+              <div id="topicAddDiv" class="box-body" style="display: block">
+                <form action="" style="margin:5px;margin-left: 120px" >
+                 主题1：
+                 <select id="Topic1" style="width:30%">
+                   <option ng-repeat="topic1 in topics" vaule={{topic1.topicName}}>{{topic1.topicName}}</option>
+                 </select>
+               </form>
+               <form action="" style="margin:5px;margin-left: 120px" >
+                 主题2：
+                 <select id="Topic2"  style="width:30%">
+                   <option ng-repeat="topic2 in topics" vaule={{topic2.topicName}}>{{topic2.topicName}}</option>
+                 </select>
+               </form>
+               <button  type="button" class="btn btn-primary" ng-click="addDependence() "style="margin-left: 200px ">添加</button>
+             </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="box box-primary box-solid">
+              <div class="box-header with-border">
+                <h3 class="box-title" id="nowTopicTree">所选主题分面树</h3>
+              </div>
+              <div class="box-body"  id="topicTreeDiv" style="display: block"></div>
+            </div>
+          </div>
+        </div>
+        <div div class="col-sm-4">
+          <div class="box box-primary box-solid" style="width:98%">
+            <div class="box-header with-border">
+              <h3 id="dependenceNum" class="box-title">所选课程下认知关系共若干条</h3>
+            </div>
+            <div id="relationInfoDiv" class="box-body" style="">
+              <span>
+                <input type="text" name="chaxun" style="width:84%;margin-left: 2%">
+                <button  class="btn btn-default" ng-click="queryByKeyword()">查询</button>
+              </span>
+              <div style="margin:2%;height:620px;display: block;overflow-y: auto">
+                <table border="1" style="width:100%;">
+                  <tr>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Delete</th>
+                  </tr>
+                  <tr ng-repeat="dependence in dependences">
+                    <td>{{dependence.startTopicName}}</td>
+                    <td>{{dependence.endTopicName}}</td>
+                    <td>
+                      <a href="" ng-click="deleteDependence(dependence.startTopicId,dependence.endTopicId)">X删除</a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.0.1
+    </div>
+    <strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
+    reserved.
+  </footer>
+
+
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+
+
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+
+
+<!-- 个人的插件 -->
+
+<script src="../../plugins/angularjs/angular.min.js"></script>
+<script src="../../plugins/angularjs/angular-animate.js"></script>
+<script src="../../plugins/angularjs/angular-sanitize.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap.js"></script>
+<script src="../../plugins/jQuery/jquery.qtip.min.js"></script>
+<script src="../../plugins/jQuery/jquery-ui.js"></script>
+<script src="../../plugins/echartjs/echarts.js"></script>
+<script src="../../plugins/d3js/d3.min.js"></script>
+<script src="../../plugins/datguijs/dat.gui.min.js"></script>
+<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="../../plugins/bootstrap-contextmenu.js"></script>
+
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+<!-- 个人的插件 -->
+<script type="text/javascript" src="js/function.js"></script>
+<script type="text/javascript" src="js/topic.js"></script>
+<!--add Subject facet tree .js-->
+<script type="text/javascript" src="js/tree.js"></script>
+
+</body>
+</html>

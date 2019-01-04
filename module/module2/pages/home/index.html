@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" >
+  <title>New Yotta</title>
+   <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+  <!-- Ionicons -->
+  <link href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+<!-- <script type="text/javascript">ip = ffsfdsf；</script> -->
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="../home/index.html" class="logo">
+    <!-- <a href="../../index.html" class="logo">   -->
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini" style="font-size: 12px">数据管理</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg">数据管理</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 19px"></i><strong> New Yotta</strong></a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header">主要功能</li>
+        <li>
+          <a href="../home/index.html">
+            <i class="fa fa-houzz"></i> <span>HOME</span>  
+          </a>
+        </li>
+
+        <li>
+          <a href="../topic_relation/index.html">
+            <i class="fa fa-asterisk"></i> <span>主题&认知关系</span>
+          </a>
+        </li>
+        <li>
+          <a href="../facet_fragment/index.html">
+            <i class="fa  fa-download"></i> <span>分面&知识碎片</span>
+          </a>
+        </li>
+      </ul>
+
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" ng-app="myApp" ng-controller="myCon">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1  style="display: inline">
+      <small> &nbsp; &nbsp;
+            <span style="font-family: 微软黑体">切换构建学科和课程:</span>
+            <select class="btn btn-sm btn-primary" ng-model="subject" ng-options="subject.subjectName for subject in subjects" ng-change="subject_change()">
+              <option value="">-- 请选择学科 --</option> 
+            </select>
+            <select class="btn btn-sm btn-primary" ng-model="domain" ng-options="domain.domainName for domain in subject.domains" ng-change="domain_change()">
+              <option value="">-- 请选择课程 --</option> 
+            </select>
+            &nbsp; &nbsp;
+            <span style="font-family: 微软黑体">目前含: <b><a ng-bind="subjectNum"></a></b> 个学科，<b><a ng-bind="classSum"></a></b> 门课程</span>
+        </small>
+      </h1>
+      <!-- <div style="float: right"> -->
+        <form style="display: inline;float: right">
+          关键词：<input type="text" name="KeyWord" value="数据结构">
+          <input type="button" value="搜索" ng-click="queryByKeyword()" data-toggle="modal" data-target="#queryModal">
+        </form>
+        <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="queryModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;
+                </button>
+                <h4 class="modal-title" id="queryModalLabel">
+                  查询结果
+                </h4>
+              </div>
+              <div class="modal-body" style="height:500px;overflow-y: auto">
+                
+              <div ng-repeat="querysubject in querysubjects" class="queryResult"><span>></span>{{querysubject.name}}</div>
+              <div ng-repeat="querytopic in querytopics" class="queryResult" >
+                <span>></span>
+                <span>{{querytopic.domainName}}</span>
+                <span>></span>
+                {{querytopic.name}}
+              </div>
+              <div ng-repeat="queryfacet in queryfacets" class="queryResult">
+                <span>></span>
+                <span>{{queryfacet.domainName}}</span>
+                <span>></span>
+                <span>{{queryfacet.topicName}}</span>
+                <span>></span>
+                {{queryfacet.name}}
+              </div>
+                </div>
+              
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal -->
+        </div>
+      <!-- </div> -->
+      <!-- <ol class="breadcrumb">
+        <li><a href="../home/index.html"><i class="fa fa-dashboard"></i> 导航</a></li>
+        <li><a href="../../index.html"><i class="fa fa-dashboard"></i> 导航</a></li>
+        <li class="active">HOME</li>
+      </ol> -->
+    </section>
+    <section class="content">
+      <div >
+        <div class="row">
+          <div class="col-md-8">
+            
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+          <div id="myChart" style="width:100%;height:700px"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.0.1
+    </div>
+    <strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
+    reserved.
+  </footer>
+
+
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+
+
+<!-- 分面树构建页面样式 -->
+
+
+<script src="../../plugins/angularjs/angular.min.js"></script>
+<script src="../../plugins/jQuery/jquery.qtip.min.js"></script>
+<script src="../../plugins/jQuery/jquery-ui.js"></script>
+
+<script src="../../plugins/echartjs/echarts.js"></script>
+<script src="../../plugins/d3js/d3.min.js"></script>
+<script src="../../plugins/datguijs/dat.gui.min.js"></script>
+<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<script type="text/javascript" src="js/home.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
+
+</body>
+</html>

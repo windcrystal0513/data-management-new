@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" >
+  <title>New Yotta</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+     <script type="text/javascript" src="../../../../config/ipconfig.js"></script>
+  <script type="text/javascript">
+      if(getCookie('userinfo')=='')   window.location.href='../../../login/';
+  </script>
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+  <!-- Ionicons -->
+  <link href="https://cdn.staticfile.org/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="../home/index.html" class="logo">
+    <!-- <a href="../../index.html" class="logo"> -->
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini" style="font-size: 12px">数据管理</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg">数据管理</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 19px"></i><strong> New Yotta</strong></a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header">主要功能</li>
+        <li>
+          <a href="../home/index.html">
+            <i class="fa fa-houzz"></i> <span>HOME</span>  
+          </a>
+        </li>
+
+        <li>
+          <a href="../topic_relation/index.html" data-toggle="tooltip"  title="默认的 Tooltip">
+            <i class="fa fa-asterisk"></i> <span>主题&认知关系</span>
+          </a>
+        </li>
+        <li>
+          <a href="../facet_fragment/index.html">
+            <i class="fa  fa-download"></i> <span>分面&知识碎片</span>
+          </a>
+        </li>
+
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" ng-app="myApp" ng-controller="myCon">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1  style="display: inline">
+      <small> &nbsp; &nbsp;
+            <span style="font-family: 微软黑体">切换构建学科和课程:</span>
+            <select class="btn btn-sm btn-primary" ng-model="subject" ng-options="subject.subjectName for subject in subjects" 
+            ng-change="subject_change()">
+              <option value="">-- 请选择学科 --</option> 
+            </select>
+            <select class="btn btn-sm btn-primary" ng-model="domain" ng-options="domain.domainName for domain in subject.domains" ng-change="domain_change()">
+              <option value="">-- 请选择课程 --</option> 
+            </select>
+        </small>
+      </h1>
+    </section>
+
+    <section class="content">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="box box-primary box-solid" style="width:95%">
+              <div class="box-header with-border">
+                <h3 class="box-title" id="class_name">课程数据</h3>
+              </div>
+              <div id="fragmentClassDiv" class="box-body" style="display: block;overflow-y:auto">
+
+                <ul class="" style="background-color: ">
+                  <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
+                    <div class=" list-group-item" style="background-color:#4682B4;">
+                     <a id={{x.topicName}}_choose ng-click="gettopicfacet(x.domainName,x.topicName);gettopicfragment(x.domainName,x.topicName);showFacetTreeWithLeaves(x.domainName,x.topicName)" style="color:white;cursor:pointer" ng-mouseover="getTopicInfo(x.topicName)"  data-toggle="tooltip">{{x.topicName}}</a>
+                     <a id={{x.topicName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.firstLayerFacets.length==0"></a>
+                   </div>
+                   <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.firstLayerFacets">
+                    <div class="list-group-item " style="background-color:#3c8dbc;margin:2px 0;" data-toggle="context"  data-target="#menu"  ng-right-click="rightFacet(x.topicName,1,y.firstLayerFacetId)">
+                     <a id={{x.topicName}}_{{y.firstLayerFacetName}}_choose style="color:white;cursor:pointer"
+                     ng-click="getfacet1facet(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId);getfacet1fragment(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId)
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);"  ng-mouseover="countFirstFacetInfo(x.topicName,y.firstLayerFacetName,1,y.firstLayerFacetId)"  data-toggle="tooltip">{{y.firstLayerFacetName}}</a>
+                     <a id={{x.topicName}}_{{y.firstLayerFacetName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.secondLayerFacets.length==0"></a>
+                   </div>
+
+
+
+                   <ul uib-collapse="isCollapsedchildren" class="level3"
+                   ng-repeat="z in y.secondLayerFacets">
+                   <div class="list-group-item " style="background-color: #6495ED ;margin:2px 0;"  data-toggle="context"  data-target="#menu"  ng-right-click="rightFacet(x.topicName,2,z.secondLayerFacetId)">
+                     <a  id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_choose style="color:white;cursor:pointer" ng-click="getfacet2facet(x.domainName,x.topicName,y.firstLayerFacetName,z.secondLayerFacetName,z.secondLayerFacetId);getfacet2fragment(x.domainName,x.topicName,z.secondLayerFacetName,z.secondLayerFacetId)
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);"   ng-mouseover="countSecondFacetInfo(x.topicName,y.firstLayerFacetName,z.secondLayerFacetName,2,z.secondLayerFacetId)"  data-toggle="tooltip">{{z.secondLayerFacetName}}</a>
+                     <a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_a ng-click="isCollapsedchildren2 = !isCollapsedchildren2;" ng-hide="z.thirdLayerFacets.length==0"></a>
+                   </div>
+                   <ul uib-collapse="isCollapsedchildren2" class="level4"
+                   ng-repeat="w in z.thirdLayerFacets">
+                   <div class="list-group-item " style="background-color:#5CACEE ;margin:2px 0;color:white;"  data-toggle="context"  data-target="#menu"  ng-right-click="rightFacet(x.topicName,3,w.thirdLayerFacetId)">
+                     <div  id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_{{w.thirdLayerFacetName}}_a style="cursor: pointer" ng-click="getfacet3facet(x.domainName,x.topicName,y.firstLayerFacetName,z.secondLayerFacetName,w.thirdLayerFacetName,w.thirdLayerFacetId);getfacet3(x.domainName,x.topicName,w.thirdLayerFacetName,w.thirdLayerFacetId)
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);" ng-mouseover="countThirdFacetInfo(x.topicName,y.firstLayerFacetName,z.secondLayerFacetName,w.thirdLayerFacetName,3,w.thirdLayerFacetId)"  data-toggle="tooltip">{{w.thirdLayerFacetName}}</div>
+                   </div>
+                   </ul>
+
+
+                 </ul>
+               </ul>
+             </li>
+           </ul>
+
+           <div id="menu">
+             <ul class="dropdown-menu" role="menu">
+               <li>
+                 <a style="cursor:pointer" ng-click="deleteFacet()">
+                   Delete
+                 </a>
+               </li>
+               <li>
+               <a style="cursor:pointer"  data-toggle="modal" ng-click="showModal()">
+                   Modify
+                 </a>
+               </li>
+             </ul>
+           </div>
+
+           <div class="modal fade" id="modifyFacetModal" tabindex="-1" role="dialog" aria-labelledby="modifyFacetModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title" id="modifyFacetModalLabel">
+                    修改
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <form action="" style="margin-left:0px" >
+                    分面名：<input type="text" name="NewFacetName">
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-default" ng-click="modifyFacet()" data-dismiss="modal">确认修改</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+              </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="box box-primary box-solid">
+              <div class="box-header with-border">
+                <h3  class="box-title">
+                  <span id="nowtype"></span>
+                  <span id="addfacetname">添加分面</span>
+                </h3>
+              </div>
+              <div id="facetAddDiv" class="box-body" style="display: block">
+                <form action="" style="padding-top: 8%;padding-left: 5%;width:100%" >
+                  分面名：<input type="text" name="FacetName">
+                  <input type="button" value="确定" ng-click="addFacet()">
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="box box-primary box-solid">
+              <div class="box-header with-border">
+                <h3 id="topictree" class="box-title">所选主题实例化主题分面树</h3>
+              </div>
+              <div id="facetTreeDiv" class="box-body context" style="display: block">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="box box-primary box-solid">
+            <div class="box-header with-border">
+            <h3 id="fragment_title" class="box-title">所选主题/分面碎片</h3>
+            <button class="btn btn-default" style="float: right" ng-click="addFragment()">添加碎片</button>
+            </div>
+            <div id="fragmentInfoDiv" class="box-body" style="display: block;overflow-y: auto" >
+                <div class="box box-primary" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:45%;float:left;margin:1%" >
+                  <div class="box-body" style="height:150px;overflow:auto" ng-bind-html="fragment.assembleContent">
+                  </div>
+                  <div class="box-footer">
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteFragment(fragment.assembleId)"><i class="fa fa-times"></i></button>
+                    <button class="btn btn-primary" style="float: right" ng-click="modifyFragment(fragment.assembleId)">修改</button>
+                    <button type="button" class="btn btn-primary" style="float:right" ng-click="getFragmentDetail(fragment)">
+                    详情
+                  </button>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+
+          <div class="modal fade" id="fragmentAddModifyModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title" id="imageModalLabel">
+                    添加碎片
+                  </h4>
+                </div>
+                <div class="modal-body"  style="height:400px;width:100%;">
+                  <div id="wang">
+                    <p>请添加碎片...</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                  </button>
+                  <button  type="button" class="btn btn-primary" ng-click="fragmentAddModify()" data-dismiss="modal">确定
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="fragmentDetail" tabindex="-1" role="dialog" aria-labelledby="fragmentDetailLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content" style="width:1000px;overflow-x: auto">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                  </button>
+                  <h4 class="modal-title" id="fragmentDetailLabel">
+                    碎片内容
+                  </h4>
+                </div>
+                <div class="modal-body" style="">
+                  <div id="fragmentDetailContent">
+                  </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 1.0.1
+    </div>
+    <strong>Copyright &copy; 2017 智能网络与网络安全教育部重点实验室.</strong> All rights
+    reserved.
+  </footer>
+
+
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+
+
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+
+<!-- 下面放你个人的插件 -->
+
+<!--引入wangEditor.css-->
+<link rel="stylesheet" type="text/css" href="../../plugins/wangEditor/wangEditor.min.css">
+<script type="text/javascript" src="../../plugins/wangEditor/wangEditor.min.js"></script>
+
+
+
+<!-- <script src="../../plugins/angularjs/angular.js"></script> -->
+<script src="../../plugins/angularjs/angular.min.js"></script>
+<script src="../../plugins/angularjs/angular-animate.js"></script>
+<script src="../../plugins/angularjs/angular-sanitize.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../../plugins/ui-bootstrap/ui-bootstrap.js"></script>
+<script src="../../plugins/jQuery/jquery.qtip.min.js"></script>
+<script src="../../plugins/jQuery/jquery-ui.js"></script>
+<script src="../../plugins/echartjs/echarts.js"></script>
+<script src="../../plugins/d3js/d3.min.js"></script>
+<script src="../../plugins/datguijs/dat.gui.min.js"></script>
+<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="../../plugins/bootstrap-contextmenu.js"></script>
+<!-- <script src="../../plugins/jquery-tooltip-theme/js/jquery-1.11.0.min.js" type="text/javascript"></script> -->
+<!-- <script src="../../plugins/jquery-tooltip-theme/js/jquery.toolbar.js"></script> -->
+ 
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+<script src="js/tree.js"></script>
+
+<script src="js/facet.js"></script>
+<!-- <script src="js/ngDraggable.js"></script> -->
+<script src="js/function.js"></script>
+
+ <!--add Subject facet tree .js-->
+
+
+</body>
+</html>
