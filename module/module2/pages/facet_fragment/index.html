@@ -230,7 +230,7 @@
                   </div>
                   <div class="box-footer">
                     <button type="button" class="btn btn-box-tool" data-widget="remove" ng-click="deleteFragment(fragment.assembleId)"><i class="fa fa-times"></i></button>
-                    <button class="btn btn-primary" style="float: right" ng-click="modifyFragment(fragment.assembleId)">修改</button>
+                   <!--  <button class="btn btn-primary" style="float: right" ng-click="modifyFragment(fragment.assembleId)">修改</button> -->
                     <button type="button" class="btn btn-primary" style="float:right" ng-click="getFragmentDetail(fragment)">
                     详情
                   </button>
@@ -242,7 +242,7 @@
 
           <div class="modal fade" id="fragmentAddModifyModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-              <div class="modal-content">
+              <div class="modal-content" style="width: 120%">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
@@ -255,8 +255,13 @@
                   <div id="wang">
                     <p>请添加碎片...</p>
                   </div>
-                  <input type="text" class="form-control" placeholder="请输入碎片链接 ..." id="fragmentUrl" ng-value="fragmentUrlNg">
-                  <input type="text" class="form-control" placeholder="请输入碎片来源（书为ISSN编号） ..." id="fragmentSource" ng-value="fragmentSourceNg">
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <input type="text" class="form-control" placeholder="请输入碎片链接 ...（书为ISBN编号）" id="fragmentUrl" ng-value="fragmentUrlNg">
+                  <input type="text" class="form-control" placeholder="请输入碎片来源 ..." id="fragmentSource" ng-value="fragmentSourceNg">
                 </div>
                 <div class="modal-footer" style="margin-top: 50px">
                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭

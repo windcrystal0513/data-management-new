@@ -6,22 +6,23 @@ $(document).ready(function(){
  zidingyi_height=footer-header;
  // console.log(zidingyi_height);
  
- $("#fragmentClassDiv").css("height",zidingyi_height*0.90+"px");
+ $("#fragmentClassDiv").css("height",zidingyi_height*0.85+"px");
  
- $("#facetAddDiv").css("height",zidingyi_height*0.20+"px");
+ $("#facetAddDiv").css("height",zidingyi_height*0.15+"px");
 
  $("#facetTreeDiv").css("height",zidingyi_height*0.65+"px");
 
- $("#fragmentInfoDiv").css("height",zidingyi_height*0.90+"px");   
+ $("#fragmentInfoDiv").css("height",zidingyi_height*0.85+"px");   
 
  $("#wang").css("height",zidingyi_height*0.3+"px");      
 })
 
 
-var editor = new wangEditor('wang');
-editor.config.uploadImgUrl = ip+'/SpiderAPI/createImageFragment';
-editor.config.uploadImgFileName="imageContent";
-editor.config.hideLinkImg = true;
+var E = window.wangEditor
+var editor = new E('#wang')
+editor.customConfig.uploadImgServer = ip+"/assemble/uploadImage";
+editor.customConfig.uploadFileName = 'image';
+editor.customConfig.hideLinkImg = true;
 editor.create();
 
 // var nowOperateClass;
@@ -422,13 +423,13 @@ app.controller('myCon',function($scope,$http,$sce){
     }
 
     $scope.addFragment=function(){
-        fragmentUrl = document.getElementById("fragmentUrl").value;
-        fragmentSource = document.getElementById("fragmentSource").value;
+        
         $("#fragmentAddModifyModal").modal();
         modify_add_flag=0;
     }
 
     $scope.modifyFragment=function(a){
+       
         modify_add_flag=1;
         nowModifyFragmentId=a;
         $("#fragmentAddModifyModal").modal();
@@ -440,20 +441,31 @@ app.controller('myCon',function($scope,$http,$sce){
         }).then(function successCallback(response){
             // console.log(response.data.data.assembleContent);
             $("#wang").html(response.data.data.assembleContent);
+              $scope.fragmentUrlNg = response.data.data.url;
+              $scope.fragmentSourceNg = response.data.data.sourceName;
         }, function errorCallback(response){
 
         });
     }
 
     $scope.fragmentAddModify=function(){
-        var html = editor.$txt.html() + "";
+
+        fragmentUrl = document.getElementById("fragmentUrl").value;
+        fragmentSource = document.getElementById("fragmentSource").value;
+
+        var html = editor.txt.html()+" ";
         var type=document.getElementById("fragment_title").innerText.split(" ")[0];
         if(modify_add_flag==0){
             console.log("addFragment");
             $http({
                 method:'POST',
                 url:ip+"/assemble/appendAssemble",
-                data : $.param({domainName:getCookie("NowClass"),facetId:nowAddFragmentFacetId,assembleContent : html,url:fragmentUrl,sourceName:fragmentSource}),
+                data : $.param({domainName:getCookie("NowClass"),
+                    facetId:nowAddFragmentFacetId,
+                    assembleContent :html,
+                    url:fragmentUrl,
+                    sourceName:fragmentSource,
+                               }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             }).then(function successCallback(response){
                 response = response["data"];
@@ -481,7 +493,9 @@ app.controller('myCon',function($scope,$http,$sce){
                 method:'POST',
                 url:ip+"/assemble/updateAssemble",
                 data : $.param({assembleId:nowModifyFragmentId,
-                                 assembleContent : html
+                                 assembleContent : html,
+                                 url:fragmentUrl,
+                                 sourceName:fragmentSource,
                              }),
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'},
             }).then(function successCallback(response){
@@ -526,6 +540,7 @@ app.controller('myCon',function($scope,$http,$sce){
         console.log(obj);
         $('#fragmentDetail').modal('show');
         document.getElementById("fragmentDetailContent").innerHTML=obj.assembleContent;
+      
     }
 
     $scope.showFacetTreeWithLeaves=function(className,subjectName){
