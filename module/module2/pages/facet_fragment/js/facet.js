@@ -14,7 +14,7 @@ $(document).ready(function(){
 
  $("#fragmentInfoDiv").css("height",zidingyi_height*0.85+"px");   
 
- $("#wang").css("height",zidingyi_height*0.3+"px");      
+ $("#wang").css("height",zidingyi_height*0.25+"px");      
 })
 
 
@@ -440,7 +440,8 @@ app.controller('myCon',function($scope,$http,$sce){
             params:{assembleId:a}
         }).then(function successCallback(response){
             // console.log(response.data.data.assembleContent);
-            $("#wang").html(response.data.data.assembleContent);
+            // $("#wang").html(response.data.data.assembleContent);
+            var html = editor.txt.html(response.data.data.assembleContent)+" ";
               $scope.fragmentUrlNg = response.data.data.url;
               $scope.fragmentSourceNg = response.data.data.sourceName;
         }, function errorCallback(response){
