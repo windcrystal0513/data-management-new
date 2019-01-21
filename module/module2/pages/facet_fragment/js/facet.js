@@ -14,7 +14,11 @@ $(document).ready(function(){
 
  $("#fragmentInfoDiv").css("height",zidingyi_height*0.85+"px");   
 
+<<<<<<< HEAD
  $("#wang").css("height",zidingyi_height*0.25+"px");      
+=======
+ $("#wang").css("height",zidingyi_height*0.2+"px");      
+>>>>>>> 05b9d662e638909286579b7b3736b3e5a22c0f7a
 })
 
 
