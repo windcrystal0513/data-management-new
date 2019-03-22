@@ -693,6 +693,9 @@ $.ajax({
 	    //对分面树进行缩放
 	    //$(window).bind('mousewheel', function(evt) {
 	    $("div#facetedTreeDiv").bind('mousewheel', function(evt) {
+	    	if(evt.target.tagName !== 'svg' && evt.target.tagName !== 'path' && evt.target.tagName !== 'textPath' && evt.target.tagName !== 'line' && evt.target.tagName !== 'text'){
+                return;
+            }
 			var temp = multiple;//判断是保持0.25或者1.25不变
 			if( 0.3< multiple && multiple<1){
 				multiple+=evt.originalEvent.wheelDelta/5000;
