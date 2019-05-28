@@ -1,4 +1,4 @@
-// 自适应程序
+// 自适应程序a
 var zidingyi_height;
 $(document).ready(function(){
  var header=$(".content-header").offset().top+$(".content-header").height()
