@@ -64,11 +64,35 @@ app.directive('ngRightClick', function($parse) {
     };
 });
 app.controller('myCon',function($scope,$http,$sce){
-    // $("[data-toggle='tooltip']").tooltip();
-    $http.get(ip+'/domain/getDomainsGroupBySubject').success(function(response){
+    $("[data-toggle='tooltip']").tooltip();
+    // $http.get(ip+'/domain/getDomainsGroupBySubject').success(function(response){
+    //     data = response["data"];
+    //     $scope.subjects = response["data"];
+    //     // console.log($scope.subjects);
+    //         // 切回导航页面时，读取现有课程并更新两个框的值
+    //     for(i = 0; i < data.length; i++) {
+    //         if(data[i].subjectName == getCookie("NowSubject")) {
+    //             $scope.subject = data[i];
+    //             for(j = 0; j < data[i].domains.length; j++) {
+    //                 if(data[i].domains[j].domainName == getCookie("NowClass")) {
+    //                     $scope.domain = data[i].domains[j];
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     $scope.getDefault(getCookie("NowClass"));
+    // });
+    $http({
+        method:'GET',
+        url:ip+"/domain/getDomainsAndSubjectsByUseId",
+        params:{userName:JSON.parse(getCookie("userinfo")).userName}
+    }).then(function successCallback(response){
+        console.log(response["data"]["data"]);
         data = response["data"];
-        $scope.subjects = response["data"];
-        // console.log($scope.subjects);
+        data=data["data"]
+        $scope.subjects = data;
+        console.log(data);
+        console.log($scope.subjects)
             // 切回导航页面时，读取现有课程并更新两个框的值
         for(i = 0; i < data.length; i++) {
             if(data[i].subjectName == getCookie("NowSubject")) {
@@ -78,10 +102,11 @@ app.controller('myCon',function($scope,$http,$sce){
                         $scope.domain = data[i].domains[j];
                     }
                 }
-            }
+            } 
         }
-        $scope.getDefault(getCookie("NowClass"));
+       $scope.getDefault(getCookie("NowClass")); 
     });
+
 
     $scope.isCollapsed = true;
     $scope.isCollapsedchildren = true;

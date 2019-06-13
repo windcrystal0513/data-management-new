@@ -89,8 +89,7 @@
       <h1  style="display: inline">
       <small> &nbsp; &nbsp;
             <span style="font-family: 微软黑体">切换构建学科和课程:</span>
-            <select class="btn btn-sm btn-primary" ng-model="subject" ng-options="subject.subjectName for subject in subjects" 
-            ng-change="subject_change()">
+            <select class="btn btn-sm btn-primary" ng-model="subject" ng-options="subject.subjectName for subject in subjects" ng-change="subject_change()">
               <option value="">-- 请选择学科 --</option> 
             </select>
             <select class="btn btn-sm btn-primary" ng-model="domain" ng-options="domain.domainName for domain in subject.domains" ng-change="domain_change()">

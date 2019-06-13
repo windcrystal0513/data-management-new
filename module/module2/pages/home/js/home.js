@@ -17,9 +17,31 @@ $(document).ready(function(){
 
 var app=angular.module('myApp', []);
 app.controller('myCon',function($scope,$http){
-    $http.get(ip+'/domain/getDomainsGroupBySubject').success(function(response){
+    // $http.get(ip+'/domain/getDomainsGroupBySubject').success(function(response){
+    //     data = response["data"];
+    //     $scope.subjects = response["data"];
+    //     var classSum = 0;
+    //         // 切回导航页面时，读取现有课程并更新两个框的值
+    //     for(i = 0; i < data.length; i++) {
+    //         classSum = classSum + data[i].domains.length;
+    //         if(data[i].subjectName == getCookie("NowSubject")) {
+    //             $scope.subject = data[i];
+    //             for(j = 0; j < data[i].domains.length; j++) {
+    //                 if(data[i].domains[j].domainName == getCookie("NowClass")) {
+    //                     $scope.domain = data[i].domains[j];
+    //                 }
+    //             }
+    //         }
+    //     }
+    $http({
+        method:'GET',
+        url:ip+"/domain/getDomainsAndSubjectsByUseId",
+        params:{userName:JSON.parse(getCookie("userinfo")).userName}
+    }).then(function successCallback(response){
         data = response["data"];
-        $scope.subjects = response["data"];
+        data=data["data"]
+        $scope.subjects = data;
+        console.log($scope.subjects);
         var classSum = 0;
             // 切回导航页面时，读取现有课程并更新两个框的值
         for(i = 0; i < data.length; i++) {
@@ -439,8 +461,8 @@ app.controller('myCon',function($scope,$http){
         if ($scope.domain==null & $scope.subject!=null) {
             $scope.subject_change();
         } else if($scope.domain!=null & $scope.subject!=null) {
-            setCookie("NowClass", $scope.domain.domainName, "d900");
-            setCookie("NowSubject", $scope.subject.subjectName, "d900");
+            setCookie("NowClass", $scope.domain.domainName, "s900");
+            setCookie("NowSubject", $scope.subject.subjectName, "s900");
             var subject=$scope.subject.subjectName;
             var domain=$scope.domain.domainName;
             console.log('主题统计-选择学科：' + subject + '，选择课程：' + domain);

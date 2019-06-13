@@ -33,7 +33,8 @@ $(document).ready(function() {
                     userinfo.userName=$("#u").val();
                     userinfo.password=$("#p").val();
                     userinfo=JSON.stringify(userinfo);
-                    setCookie("userinfo",userinfo ,  "d1"); 
+                    setCookie("userinfo",userinfo ,  "h1"); 
+
                     alert("点击确定将自动跳转，无跳转请自己打开原来的页面")
 
                     window.location.href=document.referrer;
