@@ -41,7 +41,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini" style="font-size: 12px">数据管理</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">数据管理</span>
+      <span class="logo-lg" style="font-size: 25px"><b>数据管理</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -51,7 +51,7 @@
       </a>
       <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 19px"></i><strong> New Yotta</strong></a></li>
+          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 18px"></i><strong> New Yotta</strong></a></li>
         </ul>
       </div>
     </nav>
@@ -65,21 +65,20 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">主要功能</li>
+        <li class="header" style="color: white"><strong>导航</strong></li>
         <li>
-          <a href="../home/index.html">
-            <i class="fa fa-houzz"></i> <span>HOME</span>  
-          </a>
-        </li>
-
-        <li>
-          <a href="../topic_relation/index.html">
-            <i class="fa fa-asterisk"></i> <span>主题&认知关系</span>
+          <a href="../home">
+            <i class="glyphicon glyphicon-home"></i> <span>Home</span>
           </a>
         </li>
         <li>
-          <a href="../facet_fragment/index.html">
-            <i class="fa  fa-download"></i> <span>分面&知识碎片</span>
+          <a href="../topic_relation">
+            <i class="glyphicon glyphicon-tree-conifer"></i> <span>主题&认知关系</span>
+          </a>
+        </li>
+        <li>
+          <a href="../facet_fragment">
+            <i class="glyphicon glyphicon-leaf"></i> <span>分面&知识碎片</span>
           </a>
         </li>
       </ul>
@@ -108,7 +107,7 @@
       <!-- <div style="float: right"> -->
         <form style="display: inline;float: right">
           关键词：<input type="text" name="KeyWord" value="数据结构">
-          <input type="button" value="搜索" ng-click="queryByKeyword()" data-toggle="modal" data-target="#queryModal">
+          <input type="button" class="btn btn-primary" value="搜索" ng-click="queryByKeyword()" data-toggle="modal" data-target="#queryModal">
         </form>
         <div class="modal fade" id="queryModal" tabindex="-1" role="dialog" aria-labelledby="queryModalLabel" aria-hidden="true">
           <div class="modal-dialog">

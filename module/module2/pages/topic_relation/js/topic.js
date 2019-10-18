@@ -145,9 +145,10 @@ app.controller('myCon',function($scope,$http){
 
         });
     }
-    $scope.rightTopic=function(t){
+    $scope.rightTopic=function(t,q){
         console.log(t);
         nowDeleteModifyTopic=t;
+        nowDeleteModifyTopicId=q;
     }
 
     $scope.addTopic=function(){
@@ -170,11 +171,12 @@ app.controller('myCon',function($scope,$http){
         // console.log(nowDeleteModifyTopic);
         $http({
             method:'GET',
-            url:ip+"/topic/deleteTopicByNameAndDomainName",
-            params:{domainName:getCookie("NowClass"),topicName:nowDeleteModifyTopic}
+            url:ip+"/topic/deleteTopicByTopicId",
+            // params:{domainName:getCookie("NowClass"),topicName:nowDeleteModifyTopic}
+            params:{topicId:nowDeleteModifyTopicId}
         }).then(function successCallback(response){
             response = response["data"];
-            alert(nowOperateTopic+response.data);
+            alert(nowDeleteModifyTopic+response.data);
             $scope.getDefault(getCookie("NowClass"));
         }, function errorCallback(response){
 

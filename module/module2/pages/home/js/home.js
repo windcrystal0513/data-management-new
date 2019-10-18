@@ -461,8 +461,8 @@ app.controller('myCon',function($scope,$http){
         if ($scope.domain==null & $scope.subject!=null) {
             $scope.subject_change();
         } else if($scope.domain!=null & $scope.subject!=null) {
-            setCookie("NowClass", $scope.domain.domainName, "s900");
-            setCookie("NowSubject", $scope.subject.subjectName, "s900");
+            setCookie("NowClass", $scope.domain.domainName, "d900");
+            setCookie("NowSubject", $scope.subject.subjectName, "d900");
             var subject=$scope.subject.subjectName;
             var domain=$scope.domain.domainName;
             console.log('主题统计-选择学科：' + subject + '，选择课程：' + domain);

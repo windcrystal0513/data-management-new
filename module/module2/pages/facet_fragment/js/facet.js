@@ -172,6 +172,11 @@ app.controller('myCon',function($scope,$http,$sce){
         
     }
 
+    // $scope.showMenu=function(){
+    //     var submenu=this.getElementById("menu");
+    //     submenu.style.display="block";
+    // }
+   
     $scope.getTopicInfo=function(a){
         // var facetNumber;
         // var fragmentNumber;
@@ -184,6 +189,7 @@ app.controller('myCon',function($scope,$http,$sce){
             // console.log(response["data"]);
             response = response["data"];
             $("#"+a+"_choose").attr("title","主题下共有分面"+response.data.facetNumber+"个,碎片"+response.data.assembleNumber+"个");
+            // $("#"+a+"_choose").attr("title","<button>niu</button>");
         }, function errorCallback(response){
 
         });
@@ -320,26 +326,29 @@ app.controller('myCon',function($scope,$http,$sce){
 
                 });
             }
-            else if(nowtype=="二级分面"){
-
-                $http({
-                    method:'GET',
-                    url:ip+"/facet/insertThirdLayerFacet",
-                    params:{domainName:getCookie("NowClass"),topicName:nowOperateTopic
-                        ,firstLayerFacetName:nowOperateFacet1
-                        ,secondLayerFacetName:nowOperateFacet2
-                        ,thirdLayerFacetName:facetname}
-                    }).then(function successCallback(response){
-                        response = response["data"];
-                        alert(response.data);
-                        $scope.domain_change();
-                    }, function errorCallback(response){
-                        response = response["data"];
-                        alert(response.msg);
-
-                    });
+        else if(nowtype=="二级分面"){
+                    alert("二级分面下不可添加分面！");
                 }
-                else if(nowtype=="三级分面"){
+            // else if(nowtype=="二级分面"){
+
+            //     $http({
+            //         method:'GET',
+            //         url:ip+"/facet/insertThirdLayerFacet",
+            //         params:{domainName:getCookie("NowClass"),topicName:nowOperateTopic
+            //             ,firstLayerFacetName:nowOperateFacet1
+            //             ,secondLayerFacetName:nowOperateFacet2
+            //             ,thirdLayerFacetName:facetname}
+            //         }).then(function successCallback(response){
+            //             response = response["data"];
+            //             alert(response.data);
+            //             $scope.domain_change();
+            //         }, function errorCallback(response){
+            //             response = response["data"];
+            //             alert(response.msg);
+
+            //         });
+            //     }
+        else if(nowtype=="三级分面"){
                     alert("三级分面下不可添加分面！");
                 }
     }

@@ -11,7 +11,8 @@
       if(getCookie('userinfo')=='')   window.location.href='../../../login/';
   </script>
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
   <!-- Ionicons -->
@@ -21,11 +22,12 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
-
+ <!--  <link rel="stylesheet" href="wind.css"> -->
 
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
 <div class="wrapper">
 
   <header class="main-header">
@@ -35,7 +37,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini" style="font-size: 12px">数据管理</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">数据管理</span>
+      <span class="logo-lg" style="font-size: 25px"><b>数据管理</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -45,7 +47,7 @@
       </a>
       <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 19px"></i><strong> New Yotta</strong></a></li>
+          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 18px"></i><strong> New Yotta</strong></a></li>
         </ul>
       </div>
     </nav>
@@ -59,21 +61,20 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">主要功能</li>
+        <li class="header" style="color: white"><strong>导航</strong></li>
         <li>
-          <a href="../home/index.html">
-            <i class="fa fa-houzz"></i> <span>HOME</span>  
-          </a>
-        </li>
-
-        <li>
-          <a href="../topic_relation/index.html" data-toggle="tooltip"  title="默认的 Tooltip">
-            <i class="fa fa-asterisk"></i> <span>主题&认知关系</span>
+          <a href="../home">
+            <i class="glyphicon glyphicon-home"></i> <span>Home</span>
           </a>
         </li>
         <li>
-          <a href="../facet_fragment/index.html">
-            <i class="fa  fa-download"></i> <span>分面&知识碎片</span>
+          <a href="../topic_relation">
+            <i class="glyphicon glyphicon-tree-conifer"></i> <span>主题&认知关系</span>
+          </a>
+        </li>
+        <li>
+          <a href="../facet_fragment">
+            <i class="glyphicon glyphicon-leaf"></i> <span>分面&知识碎片</span>
           </a>
         </li>
 
@@ -97,6 +98,7 @@
             </select>
         </small>
       </h1>
+      
     </section>
 
     <section class="content">
@@ -106,19 +108,22 @@
               <div class="box-header with-border">
                 <h3 class="box-title" id="class_name">课程数据</h3>
               </div>
-              <div id="fragmentClassDiv" class="box-body" style="display: block;overflow-y:auto">
+              <div id="fragmentClassDiv" class="box-body " style="display: block;overflow-y:auto">
 
                 <ul class="" style="background-color: ">
+                  
                   <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
-                    <div class=" list-group-item" style="background-color:#4682B4;">
-                     <a id={{x.topicName}}_choose ng-click="gettopicfacet(x.domainName,x.topicName);gettopicfragment(x.domainName,x.topicName);showFacetTreeWithLeaves(x.domainName,x.topicName)" style="color:white;cursor:pointer" ng-mouseover="getTopicInfo(x.topicName)"  data-toggle="tooltip">{{x.topicName}}</a>
+                    <div class=" list-group-item " style="background-color:#4682B4;">
+                     <a id={{x.topicName}}_choose ng-click="isCollapsed =!isCollapsed;gettopicfacet(x.domainName,x.topicName);gettopicfragment(x.domainName,x.topicName);showFacetTreeWithLeaves(x.domainName,x.topicName)" style="color:white;cursor:pointer" ng-mouseover="getTopicInfo(x.topicName);showMenu();"  data-toggle="tooltip">{{x.topicName}}
+                     </a>
                      <a id={{x.topicName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.firstLayerFacets.length==0"></a>
+
                    </div>
                    <ul uib-collapse="isCollapsed" class="level2" ng-repeat="y in x.firstLayerFacets">
-                    <div class="list-group-item " style="background-color:#3c8dbc;margin:2px 0;" data-toggle="context"  data-target="#menu"  ng-right-click="rightFacet(x.topicName,1,y.firstLayerFacetId)">
+                    <div  class="list-group-item " style="background-color:#3c8dbc;margin:2px 0;" data-toggle="context"  data-target="#menu"  ng-right-click="rightFacet(x.topicName,1,y.firstLayerFacetId)">
                      <a id={{x.topicName}}_{{y.firstLayerFacetName}}_choose style="color:white;cursor:pointer"
-                     ng-click="getfacet1facet(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId);getfacet1fragment(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId)
-                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);"  ng-mouseover="countFirstFacetInfo(x.topicName,y.firstLayerFacetName,1,y.firstLayerFacetId)"  data-toggle="tooltip">{{y.firstLayerFacetName}}</a>
+                     ng-click="isCollapsedchildren = !isCollapsedchildren;getfacet1facet(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId);getfacet1fragment(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId)
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);"  ng-mouseover="countFirstFacetInfo(x.topicName,y.firstLayerFacetName,1,y.firstLayerFacetId);rightFacet(x.topicName,1,y.firstLayerFacetId);"  data-toggle="tooltip">{{y.firstLayerFacetName}}</a>
                      <a id={{x.topicName}}_{{y.firstLayerFacetName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.secondLayerFacets.length==0"></a>
                    </div>
 
@@ -127,7 +132,7 @@
                    <ul uib-collapse="isCollapsedchildren" class="level3"
                    ng-repeat="z in y.secondLayerFacets">
                    <div class="list-group-item " style="background-color: #6495ED ;margin:2px 0;"  data-toggle="context"  data-target="#menu"  ng-right-click="rightFacet(x.topicName,2,z.secondLayerFacetId)">
-                     <a  id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_choose style="color:white;cursor:pointer" ng-click="getfacet2facet(x.domainName,x.topicName,y.firstLayerFacetName,z.secondLayerFacetName,z.secondLayerFacetId);getfacet2fragment(x.domainName,x.topicName,z.secondLayerFacetName,z.secondLayerFacetId)
+                     <a  id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_choose style="color:white;cursor:pointer" ng-click="isCollapsedchildren2 = !isCollapsedchildren2;getfacet2facet(x.domainName,x.topicName,y.firstLayerFacetName,z.secondLayerFacetName,z.secondLayerFacetId);getfacet2fragment(x.domainName,x.topicName,z.secondLayerFacetName,z.secondLayerFacetId)
                      ;showFacetTreeWithLeaves(x.domainName,x.topicName);"   ng-mouseover="countSecondFacetInfo(x.topicName,y.firstLayerFacetName,z.secondLayerFacetName,2,z.secondLayerFacetId)"  data-toggle="tooltip">{{z.secondLayerFacetName}}</a>
                      <a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" id={{x.topicName}}_{{y.firstLayerFacetName}}_{{z.secondLayerFacetName}}_a ng-click="isCollapsedchildren2 = !isCollapsedchildren2;" ng-hide="z.thirdLayerFacets.length==0"></a>
                    </div>
@@ -143,10 +148,11 @@
                  </ul>
                </ul>
              </li>
+             
            </ul>
-
+            
            <div id="menu">
-             <ul class="dropdown-menu" role="menu">
+             <ul  class="dropdown-menu" role="menu">
                <li>
                  <a style="cursor:pointer" ng-click="deleteFacet()">
                    Delete
@@ -159,7 +165,8 @@
                </li>
              </ul>
            </div>
-
+            
+           
            <div class="modal fade" id="modifyFacetModal" tabindex="-1" role="dialog" aria-labelledby="modifyFacetModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -189,17 +196,19 @@
               </div>
             </div>
         </div>
+
         <div class="col-sm-4">
           <div class="row">
             <div class="box box-primary box-solid">
               <div class="box-header with-border">
-                <h3  class="box-title">
+                <h3  class="box-title" >
                   <span id="nowtype"></span>
                   <span id="addfacetname">添加分面</span>
                 </h3>
               </div>
+              
               <div id="facetAddDiv" class="box-body" style="display: block">
-                <form action="" style="padding-top: 8%;padding-left: 5%;width:100%" >
+                <form action="" style="padding-top: 8%;padding-left: 20%;width:100%" >
                   分面名：<input type="text" name="FacetName">
                   <input type="button" value="确定" ng-click="addFacet()">
                 </form>
@@ -218,10 +227,11 @@
           </div>
         </div>
         <div class="col-sm-4">
+           
           <div class="box box-primary box-solid">
             <div class="box-header with-border">
             <h3 id="fragment_title" class="box-title">所选主题/分面碎片</h3>
-            <button class="btn btn-default" style="float: right" ng-click="addFragment()">添加碎片</button>
+            <button  id="wind" class="btn btn-default" style="float: right" ng-click="addFragment()">添加碎片</button>
             </div>
             <div id="fragmentInfoDiv" class="box-body" style="display: block;overflow-y: auto" >
                 <div class="box box-primary" ng-repeat="fragment in fragments" style="border:2px solid #428bca;width:45%;float:left;margin:1%" >

@@ -35,7 +35,7 @@ $(document).ready(function() {
                     userinfo=JSON.stringify(userinfo);
                     setCookie("userinfo",userinfo ,  "h1"); 
 
-                    alert("点击确定将自动跳转，无跳转请自己打开原来的页面")
+                    // alert("点击确定将自动跳转，无跳转请自己打开原来的页面")
 
                     window.location.href=document.referrer;
                 } else {

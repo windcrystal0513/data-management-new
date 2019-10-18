@@ -42,7 +42,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini" style="font-size: 12px">数据管理</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">数据管理</span>
+      <span class="logo-lg" style="font-size: 25px"><b>数据管理</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -52,7 +52,7 @@
       </a>
       <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 19px"></i><strong> New Yotta</strong></a></li>
+          <li><a href="../../../../index.html" ><i class="fa fa-home" style="font-size: 18px"></i><strong> New Yotta</strong></a></li>
         </ul>
       </div>
     </nav>
@@ -66,21 +66,20 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header">主要功能</li>
+        <li class="header" style="color: white"><strong>导航</strong></li>
         <li>
-          <a href="../home/index.html">
-            <i class="fa fa-houzz"></i> <span>HOME</span>  
-          </a>
-        </li>
-
-        <li>
-          <a href="../topic_relation/index.html">
-            <i class="fa fa-asterisk"></i> <span>主题&认知关系</span>
+          <a href="../home">
+            <i class="glyphicon glyphicon-home"></i> <span>Home</span>
           </a>
         </li>
         <li>
-          <a href="../facet_fragment/index.html">
-            <i class="fa  fa-download"></i> <span>分面&知识碎片</span>
+          <a href="../topic_relation">
+            <i class="glyphicon glyphicon-tree-conifer"></i> <span>主题&认知关系</span>
+          </a>
+        </li>
+        <li>
+          <a href="../facet_fragment">
+            <i class="glyphicon glyphicon-leaf"></i> <span>分面&知识碎片</span>
           </a>
         </li>
         
@@ -115,7 +114,7 @@
               <button class="btn btn-default" style="float: right"  data-toggle="modal" data-target="#addTopicModal">添加主题</button>
             </div>
             <div id="topicAllDiv" class="box-body" style="height:680px;display: block;overflow-y: auto;overflow-x: hidden">
-              <div class="top btn btn-primary" id={{topic.topicId}} style="width:30%;margin:1%;" ng-repeat="topic in topics" ng-click="nowTopic(topic.topicName);showFacetTreeWithoutLeaves(topic.topicName);" ng-mouseover="getTopicInfo(topic.topicName)"  data-toggle="context" data-target="#menu"  ng-right-click="rightTopic(topic.topicName)" >
+              <div class="top btn btn-primary" id={{topic.topicId}} style="width:30%;margin:1%;" ng-repeat="topic in topics" ng-click="nowTopic(topic.topicName);showFacetTreeWithoutLeaves(topic.topicName);" ng-mouseover="getTopicInfo(topic.topicName)"  data-toggle="context" data-target="#menu"  ng-right-click="rightTopic(topic.topicName,topic.topicId)" >
                 {{topic.topicName}}
               </div>
             </div>
@@ -198,19 +197,19 @@
                 <h3 class="box-title" id="nowAddTopicClass">添加认知关系</h3>
               </div>
               <div id="topicAddDiv" class="box-body" style="display: block">
-                <form action="" style="margin:5px;margin-left: 120px" >
+                <form action="" style="margin:5px;text-align: center;">
                  主题1：
                  <select id="Topic1" style="width:30%">
                    <option ng-repeat="topic1 in topics" vaule={{topic1.topicName}}>{{topic1.topicName}}</option>
                  </select>
                </form>
-               <form action="" style="margin:5px;margin-left: 120px" >
+               <form action="" style="margin:5px;text-align: center;" >
                  主题2：
                  <select id="Topic2"  style="width:30%">
                    <option ng-repeat="topic2 in topics" vaule={{topic2.topicName}}>{{topic2.topicName}}</option>
                  </select>
                </form>
-               <button  type="button" class="btn btn-primary" ng-click="addDependence() "style="margin-left: 200px ">添加</button>
+               <button  type="button" class="btn btn-primary" ng-click="addDependence() "style="display:block;margin: 0 auto">添加</button>
              </div>
             </div>
           </div>
@@ -231,7 +230,7 @@
             <div id="relationInfoDiv" class="box-body" style="">
               <span>
                 <input type="text" name="chaxun" style="width:84%;margin-left: 2%">
-                <button  class="btn btn-default" ng-click="queryByKeyword()">查询</button>
+                <button  class="btn btn-primary" ng-click="queryByKeyword()">查询</button>
               </span>
               <div style="margin:2%;height:620px;display: block;overflow-y: auto">
                 <table border="1" style="width:100%;">
