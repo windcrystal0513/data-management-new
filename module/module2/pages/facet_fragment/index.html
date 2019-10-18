@@ -114,7 +114,7 @@
                   
                   <li class=" list-group-item" ng-repeat="x in classInfo " style="margin-left: -10%;background-color: ">
                     <div class=" list-group-item " style="background-color:#4682B4;">
-                     <a id={{x.topicName}}_choose ng-click="isCollapsed =!isCollapsed;gettopicfacet(x.domainName,x.topicName);gettopicfragment(x.domainName,x.topicName);showFacetTreeWithLeaves(x.domainName,x.topicName)" style="color:white;cursor:pointer" ng-mouseover="getTopicInfo(x.topicName);showMenu();"  data-toggle="tooltip">{{x.topicName}}
+                     <a id={{x.topicName}}_choose ng-click="isCollapsed =!isCollapsed;gettopicfacet(x.domainName,x.topicName);gettopicfragment(x.domainName,x.topicName);showFacetTreeWithLeaves(x.domainName,x.topicName)" style="color:white;cursor:pointer" ng-mouseover="getTopicInfo(x.topicName);"  data-toggle="tooltip">{{x.topicName}}
                      </a>
                      <a id={{x.topicName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsed =!isCollapsed;" ng-hide="x.firstLayerFacets.length==0"></a>
 
@@ -123,7 +123,7 @@
                     <div  class="list-group-item " style="background-color:#3c8dbc;margin:2px 0;" data-toggle="context"  data-target="#menu"  ng-right-click="rightFacet(x.topicName,1,y.firstLayerFacetId)">
                      <a id={{x.topicName}}_{{y.firstLayerFacetName}}_choose style="color:white;cursor:pointer"
                      ng-click="isCollapsedchildren = !isCollapsedchildren;getfacet1facet(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId);getfacet1fragment(x.domainName,x.topicName,y.firstLayerFacetName,y.firstLayerFacetId)
-                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);"  ng-mouseover="countFirstFacetInfo(x.topicName,y.firstLayerFacetName,1,y.firstLayerFacetId);rightFacet(x.topicName,1,y.firstLayerFacetId);"  data-toggle="tooltip">{{y.firstLayerFacetName}}</a>
+                     ;showFacetTreeWithLeaves(x.domainName,x.topicName);"  ng-mouseover="countFirstFacetInfo(x.topicName,y.firstLayerFacetName,1,y.firstLayerFacetId);"  data-toggle="tooltip">{{y.firstLayerFacetName}}</a>
                      <a id={{x.topicName}}_{{y.firstLayerFacetName}}_a class="fa fa-fw fa-chevron-left" style="float:right;color:white;cursor:pointer" ng-click="isCollapsedchildren = !isCollapsedchildren;" ng-hide="y.secondLayerFacets.length==0"></a>
                    </div>
 
