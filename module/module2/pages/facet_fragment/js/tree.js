@@ -542,7 +542,7 @@ function DisplayBranch(dataset){
 // Init function
 function displayTree(data){
 	$("#facetTreeDiv").empty();
-dataset = data;
+    dataset = data;
 		
 
 		multiple=1;
