@@ -18,7 +18,7 @@ function init() {
                 }
             },
             type: "POST",
-            url:  ip + "/topic/getFirstTopicByDomianName?domainName=" + getCookie("NowClass"),
+            url:  ip + "/topic/getFirstTopicByDomainName?domainName=" + getCookie("NowClass"),
             data: {},
             dataType: "json",
             success: function (response) {
